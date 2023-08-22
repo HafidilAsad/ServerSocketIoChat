@@ -22,6 +22,7 @@ const socketIO = require("socket.io")(http, {
 
 let users = [];
 
+//untuk konek ke modbus
 setInterval(() => {
   client.connectTCP(HOST, { port: PortModbus }).then(() => {
     client.setID(SLAVE_ID);
@@ -31,7 +32,7 @@ setInterval(() => {
       } else {
         const buffer = Buffer.from(data.buffer);
         const valueStriko1 = buffer.readFloatBE();
-
+        socketIO.emit("valueStriko1", valueStriko1);
         console.log(`nilai striko1 ${valueStriko1}`);
       }
     });
