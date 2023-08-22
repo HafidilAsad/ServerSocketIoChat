@@ -2,7 +2,16 @@ const express = require("express");
 const app = express();
 const PORT = 4000;
 
-//New imports
+//configurasi modbus
+const ModbusRTU = require("modbus-serial");
+const { Client } = require("pg");
+const PortModbus = 502;
+const ADDRESS = 20128;
+const SLAVE_ID = 1;
+const client = new ModbusRTU();
+const HOST = "10.14.139.120";
+
+//configurasi http
 const http = require("http").Server(app);
 
 const socketIO = require("socket.io")(http, {
@@ -12,6 +21,22 @@ const socketIO = require("socket.io")(http, {
 });
 
 let users = [];
+
+setInterval(() => {
+  client.connectTCP(HOST, { port: PortModbus }).then(() => {
+    client.setID(SLAVE_ID);
+    client.readHoldingRegisters(ADDRESS, 2, function (err, data) {
+      if (err) {
+        console.log("Modbus Error", err);
+      } else {
+        const buffer = Buffer.from(data.buffer);
+        const valueStriko1 = buffer.readFloatBE();
+
+        console.log(`nilai striko1 ${valueStriko1}`);
+      }
+    });
+  });
+}, 5000);
 
 socketIO.on("connection", (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
