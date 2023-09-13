@@ -14,14 +14,14 @@ const client2 = new ModbusRTU();
 const client3 = new ModbusRTU();
 const HOST = "10.14.139.121"; //striko 1
 const HOST2 = "10.14.139.120"; //striko 2
-const HOST3 = "10.14.139.118"; //striko 2
+const HOST3 = "10.14.139.118"; //striko 3
 
 //configurasi http
 const http = require("http").Server(app);
 
 const socketIO = require("socket.io")(http, {
   cors: {
-    origin: "http://localhost:3001",
+    origin: "*",
   },
 });
 
@@ -29,83 +29,83 @@ let users = [];
 
 //untuk konek ke modbus
 setInterval(() => {
-  client
-    .connectTCP(HOST, { port: PortModbus })
-    .then(() => {
-      client.setID(SLAVE_ID);
+  // client
+  //   .connectTCP(HOST, { port: PortModbus })
+  //   .then(() => {
+  //     client.setID(SLAVE_ID);
 
-      // Read the first set of Modbus values
-      client.readHoldingRegisters(ADDRESS, 2, function (err, data) {
-        if (err) {
-          console.log("Modbus Error", err);
-        } else {
-          const buffer = Buffer.from(data.buffer);
-          const valueStriko1 = buffer.readFloatBE();
-          socketIO.emit("valueStriko1", valueStriko1);
-          console.log(`nilai striko1 ${valueStriko1}`);
+  //     // Read the first set of Modbus values
+  //     client.readHoldingRegisters(ADDRESS, 2, function (err, data) {
+  //       if (err) {
+  //         console.log("Modbus Error", err);
+  //       } else {
+  //         const buffer = Buffer.from(data.buffer);
+  //         const valueStriko1 = buffer.readFloatBE();
+  //         socketIO.emit("valueStriko1", valueStriko1);
+  //         console.log(`nilai striko1 ${valueStriko1}`);
 
-          // Read the second set of Modbus values
-          client.readHoldingRegisters(ADDRESS2, 2, function (err, data) {
-            if (err) {
-              console.log("Modbus Striko 1 Error", err);
-            } else {
-              const buffer = Buffer.from(data.buffer);
-              const valueStriko1Used = buffer.readUInt32BE();
+  //         // Read the second set of Modbus values
+  //         client.readHoldingRegisters(ADDRESS2, 2, function (err, data) {
+  //           if (err) {
+  //             console.log("Modbus Striko 1 Error", err);
+  //           } else {
+  //             const buffer = Buffer.from(data.buffer);
+  //             const valueStriko1Used = buffer.readUInt32BE();
 
-              socketIO.emit("valueStriko1Used", valueStriko1Used);
-              console.log(`nilai striko1 Used ${valueStriko1Used}`);
-            }
+  //             socketIO.emit("valueStriko1Used", valueStriko1Used);
+  //             console.log(`nilai striko1 Used ${valueStriko1Used}`);
+  //           }
 
-            // Close the Modbus connection after reading the second set of values
-            client.close();
-          });
-        }
-      });
-    })
+  //           // Close the Modbus connection after reading the second set of values
+  //           client.close();
+  //         });
+  //       }
+  //     });
+  //   })
 
-    .catch((err) => {
-      console.error("Modbus connection Striko 1 error:", err);
-      client.connectTCP(HOST, { port: PORT });
-    });
+  //   .catch((err) => {
+  //     console.error("Modbus connection Striko 1 error:", err);
+  //     client.connectTCP(HOST, { port: PortModbus });
+  //   });
 
-  client2
-    .connectTCP(HOST2, { port: PortModbus })
-    .then(() => {
-      client2.setID(SLAVE_ID);
+  // client2
+  //   .connectTCP(HOST2, { port: PortModbus })
+  //   .then(() => {
+  //     client2.setID(SLAVE_ID);
 
-      // Read the first set of Modbus values
-      client2.readHoldingRegisters(ADDRESS, 2, function (err, data) {
-        if (err) {
-          console.log("Modbus Striko2 Error", err);
-        } else {
-          const buffer = Buffer.from(data.buffer);
-          const valueStriko2 = buffer.readFloatBE();
-          socketIO.emit("valueStriko2", valueStriko2);
-          console.log(`nilai striko2 ${valueStriko2}`);
+  //     // Read the first set of Modbus values
+  //     client2.readHoldingRegisters(ADDRESS, 2, function (err, data) {
+  //       if (err) {
+  //         console.log("Modbus Striko2 Error", err);
+  //       } else {
+  //         const buffer = Buffer.from(data.buffer);
+  //         const valueStriko2 = buffer.readFloatBE();
+  //         socketIO.emit("valueStriko2", valueStriko2);
+  //         console.log(`nilai striko2 ${valueStriko2}`);
 
-          // Read the second set of Modbus values
-          client2.readHoldingRegisters(ADDRESS2, 2, function (err, data) {
-            if (err) {
-              console.log("Modbus Striko 2 Error", err);
-            } else {
-              const buffer = Buffer.from(data.buffer);
-              const valueStriko2Used = buffer.readUInt32BE();
+  //         // Read the second set of Modbus values
+  //         client2.readHoldingRegisters(ADDRESS2, 2, function (err, data) {
+  //           if (err) {
+  //             console.log("Modbus Striko 2 Error", err);
+  //           } else {
+  //             const buffer = Buffer.from(data.buffer);
+  //             const valueStriko2Used = buffer.readUInt32BE();
 
-              socketIO.emit("valueStriko2Used", valueStriko2Used);
-              console.log(`nilai striko2 Used ${valueStriko2Used}`);
-            }
+  //             socketIO.emit("valueStriko2Used", valueStriko2Used);
+  //             console.log(`nilai striko2 Used ${valueStriko2Used}`);
+  //           }
 
-            // Close the Modbus connection after reading the second set of values
-            client2.close();
-          });
-        }
-      });
-    })
+  //           // Close the Modbus connection after reading the second set of values
+  //           client2.close();
+  //         });
+  //       }
+  //     });
+  //   })
 
-    .catch((err) => {
-      console.error("Modbus connection Striko 2 error:", err);
-      client2.connectTCP(HOST2, { port: PORT });
-    });
+  //   .catch((err) => {
+  //     console.error("Modbus connection Striko 2 error:", err);
+  //     client2.connectTCP(HOST2, { port: PortModbus });
+  //   });
 
   client3
     .connectTCP(HOST3, { port: PortModbus })
@@ -118,7 +118,7 @@ setInterval(() => {
           console.log("Modbus Striko3 Error", err);
         } else {
           const buffer = Buffer.from(data.buffer);
-          const valueStriko3 = buffer.readFloatBE();
+          const valueStriko3 = buffer.readFloatBE().toFixed(1);
           socketIO.emit("valueStriko3", valueStriko3);
           console.log(`nilai striko3 ${valueStriko3}`);
 
@@ -143,9 +143,9 @@ setInterval(() => {
 
     .catch((err) => {
       console.error("Modbus connection Striko 3 error:", err);
-      client3.connectTCP(HOST3, { port: PORT });
+      client3.connectTCP(HOST3, { port: PortModbus });
     });
-}, 2000);
+}, 1000);
 
 socketIO.on("connection", (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
