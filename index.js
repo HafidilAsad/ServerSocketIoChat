@@ -4,7 +4,6 @@ const PORT = 4000;
 
 //configurasi modbus
 const ModbusRTU = require("modbus-serial");
-const { Client } = require("pg");
 const PortModbus = 502;
 const ADDRESS = 20128;
 const ADDRESS2 = 20130;
