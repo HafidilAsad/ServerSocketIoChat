@@ -13,7 +13,8 @@ const client2 = new ModbusRTU();
 const client3 = new ModbusRTU();
 const HOST = "10.14.139.121"; //striko 1
 const HOST2 = "10.14.139.120"; //striko 2
-const HOST3 = "10.14.139.118"; //striko 3
+const HOST3 = "10.14.139.238"; //gravity
+// const HOST3 = "10.14.139.118"; //striko 3
 
 //configurasi http
 const http = require("http").Server(app);
