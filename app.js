@@ -64,6 +64,26 @@ setInterval(() => {
               socketIOInstance.emit("valueStriko1", valueStriko1);
               socketIOInstance.emit("valueStriko1Used", valueStriko1Used);
 
+              const ID_MESIN = "1";
+              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ?, WHERE id = ?`;
+              dbConnection.query(
+                query_update,
+                [valueStriko1, valueStriko1Used, ID_MESIN],
+                (err, results) => {
+                  if (err) {
+                    console.log("Update Error", err);
+                  } else {
+                    if (results.affectedRows > 0) {
+                      console.log("Update successful");
+                    } else {
+                      console.log(
+                        `No records with ID ${ID_MESIN} found for update.`
+                      );
+                    }
+                  }
+                }
+              );
+
               const currentTime = new Date();
               if (
                 currentTime.getHours() === 10 &&
@@ -120,6 +140,26 @@ setInterval(() => {
               socketIOInstance.emit("valueStriko2", valueStriko2);
               socketIOInstance.emit("valueStriko2Used", valueStriko2Used);
 
+              const ID_MESIN = "2";
+              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ?, WHERE id = ?`;
+              dbConnection.query(
+                query_update,
+                [valueStriko2, valueStriko2Used, ID_MESIN],
+                (err, results) => {
+                  if (err) {
+                    console.log("Update Error", err);
+                  } else {
+                    if (results.affectedRows > 0) {
+                      console.log("Update successful");
+                    } else {
+                      console.log(
+                        `No records with ID ${ID_MESIN} found for update.`
+                      );
+                    }
+                  }
+                }
+              );
+
               const currentTime = new Date();
               if (
                 currentTime.getHours() === 10 &&
@@ -175,6 +215,26 @@ setInterval(() => {
 
               socketIOInstance.emit("valueStriko3", valueStriko3);
               socketIOInstance.emit("valueStriko3Used", valueStriko3Used);
+
+              const ID_MESIN = "3";
+              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ?, WHERE id = ?`;
+              dbConnection.query(
+                query_update,
+                [valueStriko3, valueStriko3Used, ID_MESIN],
+                (err, results) => {
+                  if (err) {
+                    console.log("Update Error", err);
+                  } else {
+                    if (results.affectedRows > 0) {
+                      console.log("Update successful");
+                    } else {
+                      console.log(
+                        `No records with ID ${ID_MESIN} found for update.`
+                      );
+                    }
+                  }
+                }
+              );
 
               const currentTime = new Date();
               if (
@@ -249,6 +309,26 @@ setInterval(() => {
               socketIOInstance.emit("valueSwifa", valueSwifa);
               socketIOInstance.emit("valueSwifaUsed", valueSwifaUsed);
 
+              const ID_MESIN = "4";
+              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ?, WHERE id = ?`;
+              dbConnection.query(
+                query_update,
+                [valueSwifa, valueSwifaUsed, ID_MESIN],
+                (err, results) => {
+                  if (err) {
+                    console.log("Update Error", err);
+                  } else {
+                    if (results.affectedRows > 0) {
+                      console.log("Update successful");
+                    } else {
+                      console.log(
+                        `No records with ID ${ID_MESIN} found for update.`
+                      );
+                    }
+                  }
+                }
+              );
+
               const currentTime = new Date();
               if (
                 currentTime.getHours() === 10 &&
@@ -303,6 +383,26 @@ setInterval(() => {
               const valueGravityUsed = buffer.readUInt32BE();
 
               socketIOInstance.emit("valueGravityUsed", valueGravityUsed);
+
+              const ID_MESIN = "5";
+              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ?, WHERE id = ?`;
+              dbConnection.query(
+                query_update,
+                [valueGravity, valueGravityUsed, ID_MESIN],
+                (err, results) => {
+                  if (err) {
+                    console.log("Update Error", err);
+                  } else {
+                    if (results.affectedRows > 0) {
+                      console.log("Update successful");
+                    } else {
+                      console.log(
+                        `No records with ID ${ID_MESIN} found for update.`
+                      );
+                    }
+                  }
+                }
+              );
 
               const currentTime = new Date();
               if (
@@ -361,26 +461,6 @@ setInterval(() => {
               const valueStriko1Used = buffer.readUInt32BE();
               console.log("nilai striko 1 Used Permenit ", valueStriko1Used);
 
-              const ID_MESIN = "1";
-              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ?, WHERE id = ?`;
-              dbConnection.query(
-                query_update,
-                [valueStriko1.valueStriko1Used, ID_MESIN],
-                (err, results) => {
-                  if (err) {
-                    console.log("Update Error", err);
-                  } else {
-                    if (results.affectedRows > 0) {
-                      console.log("Update successful");
-                    } else {
-                      console.log(
-                        `No records with ID ${ID_MESIN} found for update.`
-                      );
-                    }
-                  }
-                }
-              );
-
               const nama_mesin = "striko1";
               const query = `INSERT INTO ${DB_TABLE1_1} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
               dbConnection.query(
@@ -399,6 +479,7 @@ setInterval(() => {
             client1.close();
           });
         }
+        s;
       });
     })
     .catch((err) => {
