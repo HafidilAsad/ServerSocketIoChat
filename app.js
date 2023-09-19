@@ -22,8 +22,8 @@ const {
 const socketIOInstance = require("./socketConfig.js")(http);
 
 // Database configuration
-const DB_TABLE1_1 = "permenit_striko1";
-const DB_TABLE1_2 = "akhir_hari_striko1";
+const DB_TABLE1_1 = "permenit";
+const DB_TABLE1_2 = "akhir_hari";
 const DB_TABLE2_1 = "permenit_striko2";
 const DB_TABLE2_2 = "akhir_hari_striko2";
 const DB_TABLE3_1 = "permenit_striko3";
@@ -65,7 +65,8 @@ setInterval(() => {
               socketIOInstance.emit("valueStriko1Used", valueStriko1Used);
 
               const ID_MESIN = "1";
-              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ?, WHERE id = ?`;
+              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ? WHERE id = ?`;
+              s() === 1;
               dbConnection.query(
                 query_update,
                 [valueStriko1, valueStriko1Used, ID_MESIN],
@@ -141,7 +142,8 @@ setInterval(() => {
               socketIOInstance.emit("valueStriko2Used", valueStriko2Used);
 
               const ID_MESIN = "2";
-              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ?, WHERE id = ?`;
+              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ? WHERE id = ?`;
+              s() === 1;
               dbConnection.query(
                 query_update,
                 [valueStriko2, valueStriko2Used, ID_MESIN],
@@ -217,7 +219,8 @@ setInterval(() => {
               socketIOInstance.emit("valueStriko3Used", valueStriko3Used);
 
               const ID_MESIN = "3";
-              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ?, WHERE id = ?`;
+              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ? WHERE id = ?`;
+              s() === 1;
               dbConnection.query(
                 query_update,
                 [valueStriko3, valueStriko3Used, ID_MESIN],
@@ -310,7 +313,8 @@ setInterval(() => {
               socketIOInstance.emit("valueSwifaUsed", valueSwifaUsed);
 
               const ID_MESIN = "4";
-              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ?, WHERE id = ?`;
+              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ? WHERE id = ?`;
+              s() === 1;
               dbConnection.query(
                 query_update,
                 [valueSwifa, valueSwifaUsed, ID_MESIN],
@@ -385,7 +389,8 @@ setInterval(() => {
               socketIOInstance.emit("valueGravityUsed", valueGravityUsed);
 
               const ID_MESIN = "5";
-              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ?, WHERE id = ?`;
+              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ? WHERE id = ?`;
+              s() === 1;
               dbConnection.query(
                 query_update,
                 [valueGravity, valueGravityUsed, ID_MESIN],
