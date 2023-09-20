@@ -63,10 +63,18 @@ setInterval(() => {
 
               socketIOInstance.emit("valueStriko1", valueStriko1);
               socketIOInstance.emit("valueStriko1Used", valueStriko1Used);
+              console.log("====================================");
+
+              console.log(
+                "striko1",
+                valueStriko1,
+                "striko1used",
+                valueStriko1Used
+              );
 
               const ID_MESIN = "1";
               const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ? WHERE id = ?`;
-              s() === 1;
+
               dbConnection.query(
                 query_update,
                 [valueStriko1, valueStriko1Used, ID_MESIN],
@@ -75,7 +83,6 @@ setInterval(() => {
                     console.log("Update Error", err);
                   } else {
                     if (results.affectedRows > 0) {
-                      console.log("Update successful");
                     } else {
                       console.log(
                         `No records with ID ${ID_MESIN} found for update.`
@@ -87,9 +94,9 @@ setInterval(() => {
 
               const currentTime = new Date();
               if (
-                currentTime.getHours() === 10 &&
-                currentTime.getMinutes() === 52 &&
-                currentTime.getSeconds() === 1
+                currentTime.getHours() === 23 &&
+                currentTime.getMinutes() === 59 &&
+                currentTime.getSeconds() === 30
               ) {
                 const nama_mesin = "Striko 1";
                 const query = `INSERT INTO ${DB_TABLE1_2} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
@@ -116,7 +123,9 @@ setInterval(() => {
 
     .catch((err) => {
       console.error("Modbus connection Striko 1 error:", err);
-      client1.connectTCP(HOST1, { port: PortModbus });
+      setTimeout(() => {
+        client1.connectTCP(HOST1, { port: PortModbus });
+      }, 5000);
     });
 
   client2
@@ -140,10 +149,18 @@ setInterval(() => {
 
               socketIOInstance.emit("valueStriko2", valueStriko2);
               socketIOInstance.emit("valueStriko2Used", valueStriko2Used);
+              console.log("====================================");
+
+              console.log(
+                "striko2",
+                valueStriko2,
+                "striko2used",
+                valueStriko2Used
+              );
 
               const ID_MESIN = "2";
               const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ? WHERE id = ?`;
-              s() === 1;
+
               dbConnection.query(
                 query_update,
                 [valueStriko2, valueStriko2Used, ID_MESIN],
@@ -152,7 +169,6 @@ setInterval(() => {
                     console.log("Update Error", err);
                   } else {
                     if (results.affectedRows > 0) {
-                      console.log("Update successful");
                     } else {
                       console.log(
                         `No records with ID ${ID_MESIN} found for update.`
@@ -164,9 +180,9 @@ setInterval(() => {
 
               const currentTime = new Date();
               if (
-                currentTime.getHours() === 10 &&
-                currentTime.getMinutes() === 52 &&
-                currentTime.getSeconds() === 1
+                currentTime.getHours() === 23 &&
+                currentTime.getMinutes() === 59 &&
+                currentTime.getSeconds() === 30
               ) {
                 const nama_mesin = "Striko 2";
                 const query = `INSERT INTO ${DB_TABLE2_2} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
@@ -185,7 +201,7 @@ setInterval(() => {
               }
             }
 
-            // client2.close();
+            client2.close();
           });
         }
       });
@@ -193,7 +209,9 @@ setInterval(() => {
 
     .catch((err) => {
       console.error("Modbus connection Striko 2 error:", err);
-      client2.connectTCP(HOST2, { port: PortModbus });
+      setTimeout(() => {
+        client2.connectTCP(HOST2, { port: PortModbus });
+      }, 5000);
     });
 
   client3
@@ -218,9 +236,18 @@ setInterval(() => {
               socketIOInstance.emit("valueStriko3", valueStriko3);
               socketIOInstance.emit("valueStriko3Used", valueStriko3Used);
 
+              console.log("====================================");
+
+              console.log(
+                "striko3",
+                valueStriko3,
+                "striko3used",
+                valueStriko3Used
+              );
+
               const ID_MESIN = "3";
               const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ? WHERE id = ?`;
-              s() === 1;
+
               dbConnection.query(
                 query_update,
                 [valueStriko3, valueStriko3Used, ID_MESIN],
@@ -229,7 +256,6 @@ setInterval(() => {
                     console.log("Update Error", err);
                   } else {
                     if (results.affectedRows > 0) {
-                      console.log("Update successful");
                     } else {
                       console.log(
                         `No records with ID ${ID_MESIN} found for update.`
@@ -241,9 +267,9 @@ setInterval(() => {
 
               const currentTime = new Date();
               if (
-                currentTime.getHours() === 10 &&
-                currentTime.getMinutes() === 52 &&
-                currentTime.getSeconds() === 1
+                currentTime.getHours() === 23 &&
+                currentTime.getMinutes() === 59 &&
+                currentTime.getSeconds() === 30
               ) {
                 const nama_mesin = "Striko 3";
                 const query = `INSERT INTO ${DB_TABLE3_2} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
@@ -262,7 +288,7 @@ setInterval(() => {
               }
             }
 
-            // client3.close();
+            client3.close();
           });
         }
       });
@@ -271,98 +297,6 @@ setInterval(() => {
     .catch((err) => {
       console.error("Modbus connection Striko 3 error:", err);
       client3.connectTCP(HOST3, { port: PortModbus });
-    });
-
-  client4
-    .connectTCP(HOST4, { port: PortModbus })
-    .then(() => {
-      client4.setID(SLAVE_ID_SWIFA);
-
-      client4.readHoldingRegisters(ADDRESS4, 2, function (err, data) {
-        if (err) {
-          console.log("Modbus Swifta Error", err);
-        } else {
-          const buffer = Buffer.from(data.buffer);
-          const swappedBuffer = Buffer.alloc(4);
-
-          buffer.copy(swappedBuffer, 0, 0, 4);
-          swappedBuffer.swap16();
-
-          const valueSwifa = swappedBuffer.readFloatLE().toFixed(1);
-
-          client4.readHoldingRegisters(ADDRESS5, 2, function (err, data) {
-            if (err) {
-              console.log("Modbus Swifa Error", err);
-            } else {
-              const buffer = Buffer.from(data.buffer);
-              const swappedBuffer = Buffer.alloc(4);
-
-              buffer.copy(swappedBuffer, 0, 0, 4);
-
-              const temp = swappedBuffer[0];
-              swappedBuffer[0] = swappedBuffer[1];
-              swappedBuffer[1] = temp;
-
-              const temp2 = swappedBuffer[2];
-              swappedBuffer[2] = swappedBuffer[3];
-              swappedBuffer[3] = temp2;
-
-              const valueSwifaUsed = swappedBuffer.readUInt32LE();
-
-              socketIOInstance.emit("valueSwifa", valueSwifa);
-              socketIOInstance.emit("valueSwifaUsed", valueSwifaUsed);
-
-              const ID_MESIN = "4";
-              const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ? WHERE id = ?`;
-              s() === 1;
-              dbConnection.query(
-                query_update,
-                [valueSwifa, valueSwifaUsed, ID_MESIN],
-                (err, results) => {
-                  if (err) {
-                    console.log("Update Error", err);
-                  } else {
-                    if (results.affectedRows > 0) {
-                      console.log("Update successful");
-                    } else {
-                      console.log(
-                        `No records with ID ${ID_MESIN} found for update.`
-                      );
-                    }
-                  }
-                }
-              );
-
-              const currentTime = new Date();
-              if (
-                currentTime.getHours() === 10 &&
-                currentTime.getMinutes() === 52 &&
-                currentTime.getSeconds() === 1
-              ) {
-                const nama_mesin = "Swift Asia";
-                const query = `INSERT INTO ${DB_TABLE4_2} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
-                dbConnection.query(query, [
-                  nama_mesin,
-                  valueSwifa,
-                  valueSwifaUsed,
-                ]),
-                  (err) => {
-                    if (err) {
-                      console.log("Insert Akhir Hari Swifa Error ", err);
-                    } else {
-                      console.log("Insert into Swifa Akhir hari success");
-                    }
-                  };
-              }
-            }
-          });
-        }
-      });
-    })
-
-    .catch((err) => {
-      console.error("Modbus connection Swifa error:", err);
-      client4.connectTCP(HOST4, { port: PortModbus });
     });
 
   client5
@@ -388,9 +322,19 @@ setInterval(() => {
 
               socketIOInstance.emit("valueGravityUsed", valueGravityUsed);
 
+              console.log("====================================");
+              console.log("====================================");
+              console.log("====================================");
+
+              console.log(
+                "gravity",
+                valueGravity,
+                "Gravityused",
+                valueGravityUsed
+              );
               const ID_MESIN = "5";
               const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ? WHERE id = ?`;
-              s() === 1;
+
               dbConnection.query(
                 query_update,
                 [valueGravity, valueGravityUsed, ID_MESIN],
@@ -399,7 +343,6 @@ setInterval(() => {
                     console.log("Update Error", err);
                   } else {
                     if (results.affectedRows > 0) {
-                      console.log("Update successful");
                     } else {
                       console.log(
                         `No records with ID ${ID_MESIN} found for update.`
@@ -411,9 +354,9 @@ setInterval(() => {
 
               const currentTime = new Date();
               if (
-                currentTime.getHours() === 10 &&
-                currentTime.getMinutes() === 52 &&
-                currentTime.getSeconds() === 1
+                currentTime.getHours() === 23 &&
+                currentTime.getMinutes() === 59 &&
+                currentTime.getSeconds() === 30
               ) {
                 const nama_mesin = "Gravity";
                 const query = `INSERT INTO ${DB_TABLE5_2} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
@@ -432,7 +375,7 @@ setInterval(() => {
               }
             }
 
-            // client5.close();
+            client5.close();
           });
         }
       });
@@ -440,7 +383,10 @@ setInterval(() => {
 
     .catch((err) => {
       console.error("Modbus connection Gravity error:", err);
-      client5.connectTCP(HOST5, { port: PortModbus });
+      setTimeout(() => {
+        client5.connectTCP(HOST5, { port: PortModbus });
+      }, 5000);
+      process.exit(1);
     });
 }, 1000);
 
@@ -484,7 +430,6 @@ setInterval(() => {
             client1.close();
           });
         }
-        s;
       });
     })
     .catch((err) => {
@@ -584,71 +529,6 @@ setInterval(() => {
       client3.connectTCP(HOST3, { port: PortModbus });
     });
 
-  client4
-    .connectTCP(HOST4, { port: PortModbus })
-    .then(() => {
-      client4.setID(SLAVE_ID_SWIFA);
-
-      client4.readHoldingRegisters(ADDRESS4, 2, function (err, data) {
-        if (err) {
-          console.log("Modbus Swifta Error", err);
-        } else {
-          const buffer = Buffer.from(data.buffer);
-          const swappedBuffer = Buffer.alloc(4);
-
-          buffer.copy(swappedBuffer, 0, 0, 4);
-          swappedBuffer.swap16();
-
-          const valueSwifa = swappedBuffer.readFloatLE().toFixed(1);
-
-          client4.readHoldingRegisters(ADDRESS5, 2, function (err, data) {
-            if (err) {
-              console.log("Modbus Swifa Error", err);
-            } else {
-              const buffer = Buffer.from(data.buffer);
-              const swappedBuffer = Buffer.alloc(4);
-
-              buffer.copy(swappedBuffer, 0, 0, 4);
-
-              const temp = swappedBuffer[0];
-              swappedBuffer[0] = swappedBuffer[1];
-              swappedBuffer[1] = temp;
-
-              const temp2 = swappedBuffer[2];
-              swappedBuffer[2] = swappedBuffer[3];
-              swappedBuffer[3] = temp2;
-
-              const valueSwifaUsed = swappedBuffer.readUInt32LE();
-
-              console.log("nilai swifa", valueSwifa);
-              console.log("nilai swifa used", valueSwifaUsed);
-
-              const nama_mesin = "swiftasia";
-              const query = `INSERT INTO ${DB_TABLE4_1} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
-              dbConnection.query(
-                query,
-                [nama_mesin, valueSwifa, valueSwifaUsed],
-                (err) => {
-                  if (err) {
-                    console.log("Insert Permenit Swift Asia Error ", err);
-                  } else {
-                    console.log("Insert into Swiftasia permenit success");
-                  }
-                }
-              );
-            }
-
-            client4.close();
-          });
-        }
-      });
-    })
-
-    .catch((err) => {
-      console.error("Modbus connection Swifa error:", err);
-      client4.connectTCP(HOST4, { port: PortModbus });
-    });
-
   client5
     .connectTCP(HOST5, { port: PortModbus })
     .then(() => {
@@ -656,7 +536,7 @@ setInterval(() => {
 
       client5.readHoldingRegisters(ADDRESS, 2, function (err, data) {
         if (err) {
-          console.log("Modbus Gravity Error", err);
+          console.log("Modbus Gravity Permenit Error", err);
         } else {
           const buffer = Buffer.from(data.buffer);
           const valueGravity = buffer.readFloatBE().toFixed(1);
@@ -692,7 +572,7 @@ setInterval(() => {
       });
     })
     .catch((err) => {
-      console.error("Modbus connection Gravity error:", err);
+      console.error("Modbus connection  Permenit Gravity error:", err);
       client5.connectTCP(HOST5, { port: PortModbus });
     });
 }, 60000);
