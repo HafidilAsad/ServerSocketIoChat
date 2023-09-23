@@ -383,10 +383,8 @@ setInterval(() => {
 
     .catch((err) => {
       console.error("Modbus connection Gravity error:", err);
-      setTimeout(() => {
-        client5.connectTCP(HOST5, { port: PortModbus });
-      }, 5000);
-      process.exit(1);
+
+      client5.connectTCP(HOST5, { port: PortModbus });
     });
 }, 1000);
 
