@@ -99,8 +99,8 @@ function handleModbus(
 
               const currentTime = new Date();
               if (
-                currentTime.getHours() === 10 &&
-                currentTime.getMinutes() === 23 &&
+                currentTime.getHours() === 23 &&
+                currentTime.getMinutes() === 59 &&
                 currentTime.getSeconds() === 30
               ) {
                 const nama_mesin = `${namaMesin}`;
