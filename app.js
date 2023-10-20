@@ -3,7 +3,7 @@ const app = express();
 const http = require("http").Server(app);
 const PORT = 4000;
 
-const dbConnection = require("./dbConfig.js");
+const dbConnection = require("./dbConfig2.js");
 const {
   client1,
   client2,
@@ -33,8 +33,7 @@ const {
   ADDRESS_AP,
   ADDRESS_ED,
   ADDRESS_ED1,
-  ADDRESS_PF
-
+  ADDRESS_PF,
 } = require("./modbusConfig.js");
 
 const socketIOInstance = require("./socketConfig.js")(http);
@@ -61,9 +60,9 @@ const HOST5 = "10.14.139.66"; //gravity
 
 const HOST8 = "10.14.139.67"; //MDB I
 const HOST9 = "10.14.139.68"; //MDB II
-const HOST10 = "10.14.139.69";//MDB III
+const HOST10 = "10.14.139.69"; //MDB III
 const HOST11 = "10.14.139.70"; //MDB IV
-const HOST12 = "10.14.139.71";//MDB V
+const HOST12 = "10.14.139.71"; //MDB V
 
 function handleModbus(
   client,
@@ -123,9 +122,9 @@ function handleModbus(
 
               const currentTime = new Date();
               if (
-                currentTime.getHours() === 8 &&
-                currentTime.getMinutes() === 28 &&
-                currentTime.getSeconds() === 0
+                currentTime.getHours() === 23 &&
+                currentTime.getMinutes() === 59 &&
+                currentTime.getSeconds() === 30
               ) {
                 const nama_mesin = `${namaMesin}`;
                 const query = `INSERT INTO ${tableName} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
@@ -178,7 +177,6 @@ function handleModbus(
         }
       });
     }, 60000 * 60);
-
   });
 }
 
@@ -274,17 +272,17 @@ function handleModbusSwifa(
             } else {
               const buffer = Buffer.from(data.buffer);
               const swappedBuffer = Buffer.alloc(4);
-    
+
               buffer.copy(swappedBuffer, 0, 0, 4);
-    
+
               const temp = swappedBuffer[0];
               swappedBuffer[0] = swappedBuffer[1];
               swappedBuffer[1] = temp;
-    
+
               const temp2 = swappedBuffer[2];
               swappedBuffer[2] = swappedBuffer[3];
               swappedBuffer[3] = temp2;
-    
+
               const valueUsed = swappedBuffer.readUInt32LE();
 
               socketIOInstance.emit(`${socketEventName}`, value);
@@ -314,9 +312,9 @@ function handleModbusSwifa(
 
               const currentTime = new Date();
               if (
-                currentTime.getHours() === 8 &&
-                currentTime.getMinutes() === 28 &&
-                currentTime.getSeconds() === 0
+                currentTime.getHours() === 23 &&
+                currentTime.getMinutes() === 59 &&
+                currentTime.getSeconds() === 30
               ) {
                 const nama_mesin = `${namaMesin}`;
                 const query = `INSERT INTO ${tableName} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
@@ -369,11 +367,6 @@ function handleModbusSwifa(
         }
       });
     }, 60000 * 60);
-
-
-
- 
-
   });
 }
 
@@ -407,7 +400,7 @@ function handleModbusMdb(
   address9,
   idMesin,
   socketEventName,
-  namaMesin,
+  namaMesin
 ) {
   client.connectTCP(host, { port: PortModbusMdb, timeout: 5000 }).then(() => {
     client.setID(slaveId);
@@ -419,7 +412,7 @@ function handleModbusMdb(
           client.connectTCP(host, { port: PortModbusMdb, timeout: 5000 });
         } else {
           const buffer = Buffer.from(data.buffer);
-          const value_vr= (buffer.readUInt16BE(0) / 10).toFixed(0);
+          const value_vr = (buffer.readUInt16BE(0) / 10).toFixed(0);
 
           client.readHoldingRegisters(address2, 2, function (err, data) {
             if (err) {
@@ -433,92 +426,179 @@ function handleModbusMdb(
                 } else {
                   const buffer = Buffer.from(data.buffer);
                   const value_vt = (buffer.readUInt16BE(0) / 10).toFixed(0);
-    
+
                   socketIOInstance.emit(`${socketEventName}_vr`, value_vr);
                   socketIOInstance.emit(`${socketEventName}_vs`, value_vs);
                   socketIOInstance.emit(`${socketEventName}_vt`, value_vt);
                   console.log("====================================");
-    
-                  // console.log(`${idMesin}_vr`, value_vr, `${idMesin}_vs`, value_vs, `${idMesin}_vt`, value_vt); 
 
-                  client.readHoldingRegisters(address4, 2, function (err, data) {
-                    if (err) {
-                      console.log(`Modbus ${idMesin} Error`, err);
-                      client.connectTCP(host, { port: PortModbusMdb, timeout: 5000 });
-                    } else {
-                      const buffer = Buffer.from(data.buffer);
-                      const value_ir= (buffer.readUInt16BE(0) ).toFixed(0);
-            
-                      client.readHoldingRegisters(address5, 2, function (err, data) {
-                        if (err) {
-                          console.log(`Modbus ${idMesin} Error`, err);
-                        } else {
-                          const buffer = Buffer.from(data.buffer);
-                          const value_is = (buffer.readUInt16BE(0) ).toFixed(0);
-                          client.readHoldingRegisters(address6, 2, function (err, data) {
+                  // console.log(`${idMesin}_vr`, value_vr, `${idMesin}_vs`, value_vs, `${idMesin}_vt`, value_vt);
+
+                  client.readHoldingRegisters(
+                    address4,
+                    2,
+                    function (err, data) {
+                      if (err) {
+                        console.log(`Modbus ${idMesin} Error`, err);
+                        client.connectTCP(host, {
+                          port: PortModbusMdb,
+                          timeout: 5000,
+                        });
+                      } else {
+                        const buffer = Buffer.from(data.buffer);
+                        const value_ir = buffer.readUInt16BE(0).toFixed(0);
+
+                        client.readHoldingRegisters(
+                          address5,
+                          2,
+                          function (err, data) {
                             if (err) {
                               console.log(`Modbus ${idMesin} Error`, err);
                             } else {
                               const buffer = Buffer.from(data.buffer);
-                              const value_it = (buffer.readUInt16BE(0) ).toFixed(0);
-                
-                              socketIOInstance.emit(`${socketEventName}_ir`, value_ir);
-                              socketIOInstance.emit(`${socketEventName}_is`, value_is);
-                              socketIOInstance.emit(`${socketEventName}_it`, value_it);
-                         
-                
-                              // console.log(`${idMesin}_ir`, value_ir, `${idMesin}_is`, value_is, `${idMesin}_it`, value_it); 
-                              client.readHoldingRegisters(address7, 2, function (err, data) {
-                                if (err) {
-                                  console.log(`Modbus ${idMesin} Error`, err);
-                                  client.connectTCP(host, { port: PortModbusMdb, timeout: 5000 });
-                                } else {
-                                  const buffer = Buffer.from(data.buffer);
-                                  const value_ap= buffer.readUInt16BE(0).toFixed();
-                        
-                                  client.readHoldingRegisters(address8, 2, function (err, data) {
-                                    if (err) {
-                                      console.log(`Modbus ${idMesin} Error`, err);
-                                    } else {
-                                      const buffer = Buffer.from(data.buffer);
-                                      const value_ed_0 = buffer.readUInt16BE(0).toFixed();
-                                      client.readHoldingRegisters(address8_2, 2, function (err, data) {
+                              const value_is = buffer
+                                .readUInt16BE(0)
+                                .toFixed(0);
+                              client.readHoldingRegisters(
+                                address6,
+                                2,
+                                function (err, data) {
+                                  if (err) {
+                                    console.log(`Modbus ${idMesin} Error`, err);
+                                  } else {
+                                    const buffer = Buffer.from(data.buffer);
+                                    const value_it = buffer
+                                      .readUInt16BE(0)
+                                      .toFixed(0);
+
+                                    socketIOInstance.emit(
+                                      `${socketEventName}_ir`,
+                                      value_ir
+                                    );
+                                    socketIOInstance.emit(
+                                      `${socketEventName}_is`,
+                                      value_is
+                                    );
+                                    socketIOInstance.emit(
+                                      `${socketEventName}_it`,
+                                      value_it
+                                    );
+
+                                    // console.log(`${idMesin}_ir`, value_ir, `${idMesin}_is`, value_is, `${idMesin}_it`, value_it);
+                                    client.readHoldingRegisters(
+                                      address7,
+                                      2,
+                                      function (err, data) {
                                         if (err) {
-                                          console.log(`Modbus ${idMesin} Error`, err);
-                                        } else {
-                                          const buffer = Buffer.from(data.buffer);
-                                          const value_ed_1 = (buffer.readUInt16BE(0) ).toFixed(0);
-
-                                          client.readHoldingRegisters(address9, 2, function (err, data) {
-                                            if (err) {
-                                              console.log(`Modbus ${idMesin} Error`, err);
-                                            } else {
-                                              const buffer = Buffer.from(data.buffer);
-                                              const value_pf = (buffer.readUInt16BE(0) /1000).toFixed(1);
-
-                                              const value_ed = value_ed_0 + value_ed_1
-                                
-                                              socketIOInstance.emit(`${socketEventName}_ap`, value_ap);
-                                              socketIOInstance.emit(`${socketEventName}_ed`, value_ed);
-                                              socketIOInstance.emit(`${socketEventName}_pf`, value_pf);
-                                         
-                                
-                                              // console.log(`${idMesin}_ap`, value_ap, `${idMesin}_ed`, value_ed, `${idMesin}_pf`, value_pf); 
-                                            }
+                                          console.log(
+                                            `Modbus ${idMesin} Error`,
+                                            err
+                                          );
+                                          client.connectTCP(host, {
+                                            port: PortModbusMdb,
+                                            timeout: 5000,
                                           });
-                            
+                                        } else {
+                                          const buffer = Buffer.from(
+                                            data.buffer
+                                          );
+                                          const value_ap = buffer
+                                            .readUInt16BE(0)
+                                            .toFixed();
+
+                                          client.readHoldingRegisters(
+                                            address8,
+                                            2,
+                                            function (err, data) {
+                                              if (err) {
+                                                console.log(
+                                                  `Modbus ${idMesin} Error`,
+                                                  err
+                                                );
+                                              } else {
+                                                const buffer = Buffer.from(
+                                                  data.buffer
+                                                );
+                                                const value_ed_0 = buffer
+                                                  .readUInt16BE(0)
+                                                  .toFixed();
+                                                client.readHoldingRegisters(
+                                                  address8_2,
+                                                  2,
+                                                  function (err, data) {
+                                                    if (err) {
+                                                      console.log(
+                                                        `Modbus ${idMesin} Error`,
+                                                        err
+                                                      );
+                                                    } else {
+                                                      const buffer =
+                                                        Buffer.from(
+                                                          data.buffer
+                                                        );
+                                                      const value_ed_1 = buffer
+                                                        .readUInt16BE(0)
+                                                        .toFixed(0);
+
+                                                      client.readHoldingRegisters(
+                                                        address9,
+                                                        2,
+                                                        function (err, data) {
+                                                          if (err) {
+                                                            console.log(
+                                                              `Modbus ${idMesin} Error`,
+                                                              err
+                                                            );
+                                                          } else {
+                                                            const buffer =
+                                                              Buffer.from(
+                                                                data.buffer
+                                                              );
+                                                            const value_pf = (
+                                                              buffer.readUInt16BE(
+                                                                0
+                                                              ) / 1000
+                                                            ).toFixed(1);
+
+                                                            const value_ed =
+                                                              value_ed_0 +
+                                                              value_ed_1;
+
+                                                            socketIOInstance.emit(
+                                                              `${socketEventName}_ap`,
+                                                              value_ap
+                                                            );
+                                                            socketIOInstance.emit(
+                                                              `${socketEventName}_ed`,
+                                                              value_ed
+                                                            );
+                                                            socketIOInstance.emit(
+                                                              `${socketEventName}_pf`,
+                                                              value_pf
+                                                            );
+
+                                                            // console.log(`${idMesin}_ap`, value_ap, `${idMesin}_ed`, value_ed, `${idMesin}_pf`, value_pf);
+                                                          }
+                                                        }
+                                                      );
+                                                    }
+                                                  }
+                                                );
+                                              }
+                                            }
+                                          );
                                         }
-                                      });
-                                    }
-                                  });
+                                      }
+                                    );
+                                  }
                                 }
-                              });
+                              );
                             }
-                          });
-                        }
-                      });
+                          }
+                        );
+                      }
                     }
-                  });
+                  );
                 }
               });
             }
@@ -548,7 +628,7 @@ handleModbusMdb(
   "MDB_1",
   "valueMdb_1",
   "MDB_1"
-)
+);
 handleModbusMdb(
   client9,
   HOST9,
@@ -566,7 +646,7 @@ handleModbusMdb(
   "MDB_2",
   "valueMdb_2",
   "MDB_2"
-)
+);
 handleModbusMdb(
   client10,
   HOST10,
@@ -584,7 +664,7 @@ handleModbusMdb(
   "MDB_3",
   "valueMdb_3",
   "MDB_3"
-)
+);
 handleModbusMdb(
   client12,
   HOST12,
@@ -602,7 +682,7 @@ handleModbusMdb(
   "MDB_5",
   "valueMdb_5",
   "MDB_5"
-)
+);
 
 http.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
