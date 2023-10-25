@@ -195,18 +195,18 @@ handleModbus(
 );
 
 // Usage for client2
-// handleModbus(
-//   client2,
-//   HOST2,
-//   SLAVE_ID,
-//   ADDRESS,
-//   ADDRESS2,
-//   "2",
-//   DB_TABLE2_2,
-//   "valueStriko2",
-//   "Striko 2",
-//   DB_TABLE2_1
-// );
+handleModbus(
+  client2,
+  HOST2,
+  SLAVE_ID,
+  ADDRESS,
+  ADDRESS2,
+  "2",
+  DB_TABLE2_2,
+  "valueStriko2",
+  "Striko 2",
+  DB_TABLE2_1
+);
 
 //Usage for client3
 handleModbus(
@@ -664,6 +664,24 @@ handleModbusMdb(
   "MDB_3",
   "valueMdb_3",
   "MDB_3"
+);
+handleModbusMdb(
+  client11,
+  HOST11,
+  SLAVE_ID_MDB,
+  ADDRESS_VR,
+  ADDRESS_VS,
+  ADDRESS_VT,
+  ADDRESS_IR,
+  ADDRESS_IS,
+  ADDRESS_IT,
+  ADDRESS_AP,
+  ADDRESS_ED,
+  ADDRESS_ED1,
+  ADDRESS_PF,
+  "MDB_4",
+  "valueMdb_4",
+  "MDB_4"
 );
 handleModbusMdb(
   client12,
