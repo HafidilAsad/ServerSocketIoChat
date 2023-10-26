@@ -14,6 +14,11 @@ module.exports = (http) => {
       socketIOInstance.emit("messageResponse", data);
     });
 
+    socket.on("touchup", (data) => {
+      socketIOInstance.emit("touchupResponse", data)
+    }
+    )
+
     socket.on("newUser", (data) => {
       socketIOInstance.emit("newUserResponse", data);
     });
