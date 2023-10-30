@@ -97,7 +97,7 @@ function handleModbus(
 
               socketIOInstance.emit(`${socketEventName}`, value);
               socketIOInstance.emit(`${socketEventName}Used`, valueUsed);
-              console.log("====================================");
+              // console.log("====================================");
 
               // console.log(`${idMesin}`, value, `${idMesin}used`, valueUsed);
 
@@ -287,9 +287,9 @@ function handleModbusSwifa(
 
               socketIOInstance.emit(`${socketEventName}`, value);
               socketIOInstance.emit(`${socketEventName}Used`, valueUsed);
-              console.log("====================================");
+              // console.log("====================================");
 
-              console.log(`${idMesin}`, value, `${idMesin}used`, valueUsed);
+              // console.log(`${idMesin}`, value, `${idMesin}used`, valueUsed);
 
               const query_update = `UPDATE ${DB_TABLE_UPDATE} SET gas_used = ?, gas_consumption = ? WHERE id = ?`;
 
@@ -430,7 +430,7 @@ function handleModbusMdb(
                   socketIOInstance.emit(`${socketEventName}_vr`, value_vr);
                   socketIOInstance.emit(`${socketEventName}_vs`, value_vs);
                   socketIOInstance.emit(`${socketEventName}_vt`, value_vt);
-                  console.log("====================================");
+                  // console.log("====================================");
 
                   // console.log(`${idMesin}_vr`, value_vr, `${idMesin}_vs`, value_vs, `${idMesin}_vt`, value_vt);
 

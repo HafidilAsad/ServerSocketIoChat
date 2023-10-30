@@ -5,6 +5,7 @@ module.exports = (http) => {
     cors: {
       origin: "*",
     },
+    transport:["websocket"], 
   });
 
   socketIOInstance.on("connection", (socket) => {
