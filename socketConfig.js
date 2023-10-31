@@ -20,6 +20,21 @@ module.exports = (http) => {
     }
     )
 
+    socket.on("touchupMachining", (data) => {
+      socketIOInstance.emit("touchupMachiningResponse", data)
+    }
+    )
+
+    socket.on("touchupCasting", (data) => {
+      socketIOInstance.emit("touchupCastingResponse", data)
+    }
+    )
+
+    socket.on("touchupGas", (data) => {
+      socketIOInstance.emit("touchupGasResponse", data)
+    }
+    )
+
     socket.on("newUser", (data) => {
       socketIOInstance.emit("newUserResponse", data);
     });
