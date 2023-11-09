@@ -1,11 +1,28 @@
 const socketIO = require("socket.io");
 
+const dbConnection = require("./dbConfig2.js");
+
+const emitQualityData = (socketIOInstance) => {
+  const fetchDataFromDB = () => {
+    const query =
+      "SELECT id, nomor_mesin, status FROM db_quality_status_machine";
+
+    dbConnection.query(query, (error, results) => {
+      if (error) throw error;
+
+      socketIOInstance.emit("qualityData", results);
+    });
+  };
+
+  setInterval(fetchDataFromDB, 5000);
+};
+
 module.exports = (http) => {
   const socketIOInstance = socketIO(http, {
     cors: {
       origin: "*",
     },
-    // transport:["websocket"], 
+    // transport:["websocket"],
   });
 
   socketIOInstance.on("connection", (socket) => {
@@ -16,33 +33,31 @@ module.exports = (http) => {
     });
 
     socket.on("touchup", (data) => {
-      socketIOInstance.emit("touchupResponse", data)
-    }
-    )
+      socketIOInstance.emit("touchupResponse", data);
+    });
 
     socket.on("touchupMachining", (data) => {
-      socketIOInstance.emit("touchupMachiningResponse", data)
-    }
-    )
+      socketIOInstance.emit("touchupMachiningResponse", data);
+    });
 
     socket.on("touchupCasting", (data) => {
-      socketIOInstance.emit("touchupCastingResponse", data)
-    }
-    )
+      socketIOInstance.emit("touchupCastingResponse", data);
+    });
 
     socket.on("touchupGas", (data) => {
-      socketIOInstance.emit("touchupGasResponse", data)
-    }
-    )
+      socketIOInstance.emit("touchupGasResponse", data);
+    });
 
     socket.on("ticketMaintenance", (data) => {
-      socketIOInstance.emit("ticketMaintenanceResponse", data)
-    }
-    )
+      socketIOInstance.emit("ticketMaintenanceResponse", data);
+    });
 
     socket.on("newUser", (data) => {
       socketIOInstance.emit("newUserResponse", data);
     });
+
+    //untuk quality
+    emitQualityData(socketIOInstance);
 
     socket.on("disconnect", () => {
       console.log("🔥: A user disconnected");
