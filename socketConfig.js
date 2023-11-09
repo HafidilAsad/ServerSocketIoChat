@@ -39,9 +39,6 @@ module.exports = (http) => {
       socketIOInstance.emit("newUserResponse", data);
     });
 
-    //untuk quality
-    emitQualityData(socketIOInstance);
-
     socket.on("disconnect", () => {
       console.log("🔥: A user disconnected");
       socket.disconnect();
