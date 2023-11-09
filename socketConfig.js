@@ -5,7 +5,7 @@ module.exports = (http) => {
     cors: {
       origin: "*",
     },
-    transport:["websocket"], 
+    // transport:["websocket"], 
   });
 
   socketIOInstance.on("connection", (socket) => {
@@ -17,6 +17,26 @@ module.exports = (http) => {
 
     socket.on("touchup", (data) => {
       socketIOInstance.emit("touchupResponse", data)
+    }
+    )
+
+    socket.on("touchupMachining", (data) => {
+      socketIOInstance.emit("touchupMachiningResponse", data)
+    }
+    )
+
+    socket.on("touchupCasting", (data) => {
+      socketIOInstance.emit("touchupCastingResponse", data)
+    }
+    )
+
+    socket.on("touchupGas", (data) => {
+      socketIOInstance.emit("touchupGasResponse", data)
+    }
+    )
+
+    socket.on("ticketMaintenance", (data) => {
+      socketIOInstance.emit("ticketMaintenanceResponse", data)
     }
     )
 
