@@ -10,6 +10,7 @@ const {
   client3,
   client4,
   client5,
+  client6,
   client8,
   client9,
   client10,
@@ -34,6 +35,8 @@ const {
   ADDRESS_ED,
   ADDRESS_ED1,
   ADDRESS_PF,
+  ADDRESS5_PAINTING2,
+  ADDRESS_PAINTING
 } = require("./modbusConfig.js");
 
 const socketIOInstance = require("./socketConfig.js")(http);
@@ -49,6 +52,8 @@ const DB_TABLE4_1 = "permenit_swiftasia";
 const DB_TABLE4_2 = "akhir_hari_swiftasia";
 const DB_TABLE5_1 = "permenit_gravity";
 const DB_TABLE5_2 = "akhir_hari_gravity";
+const DB_TABLE6_1 = "permenit_painting";
+const DB_TABLE6_2 = "akhir_hari_painting";
 const DB_TABLE_UPDATE = "monitoring_gas30";
 
 // Host configuration
@@ -57,6 +62,7 @@ const HOST2 = "10.14.139.54"; //striko 2
 const HOST3 = "10.14.139.55"; //striko 3
 const HOST4 = "10.14.139.56"; //swifasia
 const HOST5 = "10.14.139.66"; //gravity
+const HOST6 = "10.14.139.172"; //painting
 
 const HOST8 = "10.14.139.67"; //MDB I
 const HOST9 = "10.14.139.68"; //MDB II
@@ -235,6 +241,21 @@ handleModbus(
   "Gravity",
   DB_TABLE5_1
 );
+
+//Usage for client6
+handleModbus(
+  client6,
+  HOST6,
+  SLAVE_ID,
+  ADDRESS_PAINTING,
+  ADDRESS5_PAINTING2,
+  "6",
+  DB_TABLE6_2,
+  "valuePainting",
+  "Painting",
+  DB_TABLE6_1
+);
+
 
 function handleModbusSwifa(
   client,
@@ -609,98 +630,6 @@ function handleModbusMdb(
   });
 }
 
-//usage for mdbc
-
-// handleModbusMdb(
-//   client8,
-//   HOST8,
-//   SLAVE_ID_MDB,
-//   ADDRESS_VR,
-//   ADDRESS_VS,
-//   ADDRESS_VT,
-//   ADDRESS_IR,
-//   ADDRESS_IS,
-//   ADDRESS_IT,
-//   ADDRESS_AP,
-//   ADDRESS_ED,
-//   ADDRESS_ED1,
-//   ADDRESS_PF,
-//   "MDB_1",
-//   "valueMdb_1",
-//   "MDB_1"
-// );
-// handleModbusMdb(
-//   client9,
-//   HOST9,
-//   SLAVE_ID_MDB,
-//   ADDRESS_VR,
-//   ADDRESS_VS,
-//   ADDRESS_VT,
-//   ADDRESS_IR,
-//   ADDRESS_IS,
-//   ADDRESS_IT,
-//   ADDRESS_AP,
-//   ADDRESS_ED,
-//   ADDRESS_ED1,
-//   ADDRESS_PF,
-//   "MDB_2",
-//   "valueMdb_2",
-//   "MDB_2"
-// );
-// handleModbusMdb(
-//   client10,
-//   HOST10,
-//   SLAVE_ID_MDB,
-//   ADDRESS_VR,
-//   ADDRESS_VS,
-//   ADDRESS_VT,
-//   ADDRESS_IR,
-//   ADDRESS_IS,
-//   ADDRESS_IT,
-//   ADDRESS_AP,
-//   ADDRESS_ED,
-//   ADDRESS_ED1,
-//   ADDRESS_PF,
-//   "MDB_3",
-//   "valueMdb_3",
-//   "MDB_3"
-// );
-// handleModbusMdb(
-//   client11,
-//   HOST11,
-//   SLAVE_ID_MDB,
-//   ADDRESS_VR,
-//   ADDRESS_VS,
-//   ADDRESS_VT,
-//   ADDRESS_IR,
-//   ADDRESS_IS,
-//   ADDRESS_IT,
-//   ADDRESS_AP,
-//   ADDRESS_ED,
-//   ADDRESS_ED1,
-//   ADDRESS_PF,
-//   "MDB_4",
-//   "valueMdb_4",
-//   "MDB_4"
-// );
-// handleModbusMdb(
-//   client12,
-//   HOST12,
-//   SLAVE_ID_MDB,
-//   ADDRESS_VR,
-//   ADDRESS_VS,
-//   ADDRESS_VT,
-//   ADDRESS_IR,
-//   ADDRESS_IS,
-//   ADDRESS_IT,
-//   ADDRESS_AP,
-//   ADDRESS_ED,
-//   ADDRESS_ED1,
-//   ADDRESS_PF,
-//   "MDB_5",
-//   "valueMdb_5",
-//   "MDB_5"
-// );
 
 http.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
