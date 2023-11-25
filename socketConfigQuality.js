@@ -10,6 +10,7 @@ const fetchDataFromDB = (socket) => {
     socket.emit("qualityData", results);
   });
 };
+
 const fetchDataJsu = (socket) => {
   const today = new Date().toISOString().split("T")[0];
   const query =
@@ -17,6 +18,39 @@ const fetchDataJsu = (socket) => {
   dbConnection.query(query, [today], (error, results) => {
     if (error) throw error;
     socket.emit("qualityJsu", results);
+  });
+};
+
+const fetchDataQtime = (socket) => {
+  const today = new Date().toISOString().split("T")[0];
+  const query =
+    "SELECT no_mesin, nrp, nama_part, " +
+    'MAX(CASE WHEN q_time = "Q1" THEN judge ELSE "-" END) AS Q1, ' +
+    'MAX(CASE WHEN q_time = "Q2" THEN judge ELSE "-" END) AS Q2, ' +
+    'MAX(CASE WHEN q_time = "Q3" THEN judge ELSE "-" END) AS Q3, ' +
+    'MAX(CASE WHEN q_time = "Q4" THEN judge ELSE "-" END) AS Q4 ' +
+    "FROM db_q_time " +
+    "WHERE createdAt >= ? " +
+    "GROUP BY no_mesin, nrp, nama_part";
+  dbConnection.query(query, [today], (error, results) => {
+    if (error) throw error;
+    socket.emit("qualityQtime", results);
+  });
+};
+const fetchDataTrial = (socket) => {
+  const today = new Date().toISOString().split("T")[0];
+  const query =
+    "SELECT no_mesin, nrp, nama_part, " +
+    'MAX(CASE WHEN trial = "T1" THEN judge ELSE "-" END) AS T1, ' +
+    'MAX(CASE WHEN trial = "T2" THEN judge ELSE "-" END) AS T2, ' +
+    'MAX(CASE WHEN trial = "T3" THEN judge ELSE "-" END) AS T3, ' +
+    'MAX(CASE WHEN trial = "T4" THEN judge ELSE "-" END) AS T4 ' +
+    "FROM db_trial_next_process " +
+    "WHERE createdAt >= ? " +
+    "GROUP BY no_mesin, nrp, nama_part";
+  dbConnection.query(query, [today], (error, results) => {
+    if (error) throw error;
+    socket.emit("qualityTrial", results);
   });
 };
 
@@ -28,6 +62,16 @@ const emitQualityData = (socket) => {
 const emitQualityJsu = (socket) => {
   setInterval(() => {
     fetchDataJsu(socket);
+  }, 5000);
+};
+const emitQualityQtime = (socket) => {
+  setInterval(() => {
+    fetchDataQtime(socket);
+  }, 5000);
+};
+const emitQualityTrial = (socket) => {
+  setInterval(() => {
+    fetchDataTrial(socket);
   }, 5000);
 };
 
@@ -45,6 +89,8 @@ module.exports = (http) => {
     // Emit quality data to the newly connected client
     emitQualityData(socket);
     emitQualityJsu(socket);
+    emitQualityQtime(socket);
+    emitQualityTrial(socket);
 
     socket.on("disconnect", () => {
       console.log("🔥: A user disconnected");
