@@ -3,13 +3,8 @@ const app = express();
 const http = require("http").Server(app);
 const PORT = 4001;
 
-const dbConnection = require("./dbConfig.js");
+const dbConnection = require("./dbConfig2.js");
 const {
-  client1,
-  client2,
-  client3,
-  client4,
-  client5,
   client8,
   client9,
   client10,
@@ -39,24 +34,7 @@ const {
 const socketIOInstance = require("./socketConfig.js")(http);
 
 // Database configuration
-const DB_TABLE1_1 = "permenit";
-const DB_TABLE1_2 = "akhir_hari";
-const DB_TABLE2_1 = "permenit_striko2";
-const DB_TABLE2_2 = "akhir_hari_striko2";
-const DB_TABLE3_1 = "permenit_striko3";
-const DB_TABLE3_2 = "akhir_hari_striko3";
-const DB_TABLE4_1 = "permenit_swiftasia";
-const DB_TABLE4_2 = "akhir_hari_swiftasia";
-const DB_TABLE5_1 = "permenit_gravity";
-const DB_TABLE5_2 = "akhir_hari_gravity";
-const DB_TABLE_UPDATE = "monitoring_gas30";
-
-// Host configuration
-const HOST1 = "10.14.139.53"; //striko 1
-const HOST2 = "10.14.139.54"; //striko 2
-const HOST3 = "10.14.139.55"; //striko 3
-const HOST4 = "10.14.139.56"; //swifasia
-const HOST5 = "10.14.139.66"; //gravity
+const DB_TABLE_MDB = "db_mdb_monitoring";
 
 const HOST8 = "10.14.139.67"; //MDB I
 const HOST9 = "10.14.139.68"; //MDB II
@@ -110,9 +88,16 @@ function handleModbusMdb(
                   socketIOInstance.emit(`${socketEventName}_vr`, value_vr);
                   socketIOInstance.emit(`${socketEventName}_vs`, value_vs);
                   socketIOInstance.emit(`${socketEventName}_vt`, value_vt);
-                   console.log("====================================");
+                  console.log("====================================");
 
-                  console.log(`${idMesin}_vr`, value_vr, `${idMesin}_vs`, value_vs, `${idMesin}_vt`, value_vt);
+                  console.log(
+                    `${idMesin}_vr`,
+                    value_vr,
+                    `${idMesin}_vs`,
+                    value_vs,
+                    `${idMesin}_vt`,
+                    value_vt
+                  );
 
                   client.readHoldingRegisters(
                     address4,
@@ -164,7 +149,14 @@ function handleModbusMdb(
                                       value_it
                                     );
 
-                                    console.log(`${idMesin}_ir`, value_ir, `${idMesin}_is`, value_is, `${idMesin}_it`, value_it);
+                                    console.log(
+                                      `${idMesin}_ir`,
+                                      value_ir,
+                                      `${idMesin}_is`,
+                                      value_is,
+                                      `${idMesin}_it`,
+                                      value_it
+                                    );
                                     client.readHoldingRegisters(
                                       address7,
                                       2,
@@ -237,7 +229,7 @@ function handleModbusMdb(
                                                             const value_pf = (
                                                               buffer.readUInt16BE(
                                                                 0
-                                                              ) / 1000  
+                                                              ) / 1000
                                                             ).toFixed(2);
 
                                                             const value_ed =
@@ -257,7 +249,54 @@ function handleModbusMdb(
                                                               value_pf
                                                             );
 
-                                                             console.log(`${idMesin}_ap`, value_ap, `${idMesin}_ed`, value_ed, `${idMesin}_pf`, value_pf);
+                                                            console.log(
+                                                              `${idMesin}_ap`,
+                                                              value_ap,
+                                                              `${idMesin}_ed`,
+                                                              value_ed,
+                                                              `${idMesin}_pf`,
+                                                              value_pf
+                                                            );
+
+                                                            const currentTime =
+                                                              new Date();
+                                                            if (
+                                                              currentTime.getHours() ===
+                                                                9 &&
+                                                              currentTime.getMinutes() ===
+                                                                1 &&
+                                                              currentTime.getSeconds() ===
+                                                                30
+                                                            ) {
+                                                              const nama_mesin = `${namaMesin}`;
+                                                              const query = `INSERT INTO ${DB_TABLE_MDB} (panel, kwh, v_r, v_s, v_t, i_r, i_s, i_t, power_factor) VALUES (?, ?, ? , ? , ? , ? , ? , ? , ? )`;
+                                                              dbConnection.query(
+                                                                query,
+                                                                [
+                                                                  nama_mesin,
+                                                                  value_ed,
+                                                                  value_vr,
+                                                                  value_vs,
+                                                                  value_vt,
+                                                                  value_ir,
+                                                                  value_is,
+                                                                  value_it,
+                                                                  value_pf,
+                                                                ]
+                                                              ),
+                                                                (err) => {
+                                                                  if (err) {
+                                                                    console.log(
+                                                                      `Insert Akhir Hari ${idMesin} Error`,
+                                                                      err
+                                                                    );
+                                                                  } else {
+                                                                    console.log(
+                                                                      `Insert into ${idMesin} Akhir hari success`
+                                                                    );
+                                                                  }
+                                                                };
+                                                            }
                                                           }
                                                         }
                                                       );
@@ -265,11 +304,11 @@ function handleModbusMdb(
                                                   }
                                                 );
                                               }
-                                            } 
+                                            }
                                           );
                                         }
                                       }
-                                    ); 
+                                    );
                                   }
                                 }
                               );
@@ -285,7 +324,7 @@ function handleModbusMdb(
           });
         }
       });
-    }, 1500);
+    }, 2500);
   });
 }
 
