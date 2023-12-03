@@ -9,7 +9,7 @@ const SLAVE_ID_SWIFA = 13;
 const SLAVE_ID_MDB = 1;
 const ADDRESS4 = 6;
 const ADDRESS5 = 8;
-const ADDRESS_PAINTING = 	21000;
+const ADDRESS_PAINTING = 21000;
 const ADDRESS5_PAINTING2 = 21002;
 
 const ADDRESS_VR = 778;
@@ -37,9 +37,9 @@ const client7 = new ModbusRTU();
 
 const client8 = new ModbusRTU(); //mdb1
 const client9 = new ModbusRTU(); //mdb2
-const client10 = new ModbusRTU();//mdb3
-const client11 = new ModbusRTU();//mdb4
-const client12 = new ModbusRTU();//mdb5
+const client10 = new ModbusRTU(); //mdb3
+const client11 = new ModbusRTU(); //mdb4
+const client12 = new ModbusRTU(); //mdb5
 
 module.exports = {
   client1,
@@ -48,6 +48,7 @@ module.exports = {
   client3,
   client4,
   client6,
+  client7,
   client8,
   client8,
   client9,
@@ -74,5 +75,5 @@ module.exports = {
   ADDRESS_ED1,
   ADDRESS_PF,
   ADDRESS5_PAINTING2,
-  ADDRESS_PAINTING
+  ADDRESS_PAINTING,
 };

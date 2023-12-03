@@ -11,6 +11,7 @@ const {
   client4,
   client5,
   client6,
+  client7,
   client8,
   client9,
   client10,
@@ -36,7 +37,7 @@ const {
   ADDRESS_ED1,
   ADDRESS_PF,
   ADDRESS5_PAINTING2,
-  ADDRESS_PAINTING
+  ADDRESS_PAINTING,
 } = require("./modbusConfig.js");
 
 const socketIOInstance = require("./socketConfig.js")(http);
@@ -54,6 +55,8 @@ const DB_TABLE5_1 = "permenit_gravity";
 const DB_TABLE5_2 = "akhir_hari_gravity";
 const DB_TABLE6_1 = "permenit_painting";
 const DB_TABLE6_2 = "akhir_hari_painting";
+const DB_TABLE7_1 = "permenit_t6";
+const DB_TABLE7_2 = "akhir_hari_t6";
 const DB_TABLE_UPDATE = "monitoring_gas30";
 
 // Host configuration
@@ -63,12 +66,7 @@ const HOST3 = "10.14.139.55"; //striko 3
 const HOST4 = "10.14.139.56"; //swifasia
 const HOST5 = "10.14.139.66"; //gravity
 const HOST6 = "10.14.139.172"; //painting
-
-const HOST8 = "10.14.139.67"; //MDB I
-const HOST9 = "10.14.139.68"; //MDB II
-const HOST10 = "10.14.139.69"; //MDB III
-const HOST11 = "10.14.139.70"; //MDB IV
-const HOST12 = "10.14.139.71"; //MDB V
+const HOST7 = "10.14.139.44"; //t6
 
 function handleModbus(
   client,
@@ -256,6 +254,19 @@ handleModbus(
   DB_TABLE6_1
 );
 
+//Usage for client7
+handleModbus(
+  client7,
+  HOST7,
+  SLAVE_ID,
+  ADDRESS_PAINTING,
+  ADDRESS5_PAINTING2,
+  "7",
+  DB_TABLE7_2,
+  "valueT6",
+  "T6",
+  DB_TABLE7_1
+);
 
 function handleModbusSwifa(
   client,
@@ -629,7 +640,6 @@ function handleModbusMdb(
     }, 2700);
   });
 }
-
 
 http.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
