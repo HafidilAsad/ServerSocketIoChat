@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const http = require("http").Server(app);
 const PORT = 4001;
+const cron = require('node-cron');
 
 const dbConnection = require("./dbConfig2.js");
 const {
@@ -325,6 +326,38 @@ function handleModbusMdb(
         }
       });
     }, 2500);
+
+    cron.schedule('15 10 * * *', () =>{
+      const nama_mesin = `${namaMesin}`;
+      const query = `INSERT INTO ${DB_TABLE_MDB} (panel, kwh, v_r, v_s, v_t, i_r, i_s, i_t, power_factor) VALUES (?, ?, ? , ? , ? , ? , ? , ? , ? )`;
+      dbConnection.query(
+        query,
+        [
+          nama_mesin,
+          value_ed,
+          value_vr,
+          value_vs,
+          value_vt,
+          value_ir,
+          value_is,
+          value_it,
+          value_pf,
+        ]
+      ),
+        (err) => {
+          if (err) {
+            console.log(
+              `Insert Akhir Hari ${idMesin} Error`,
+              err
+            );
+          } else {
+            console.log(
+              `Insert into ${idMesin} Akhir hari success`
+            );
+          }
+        };
+    })
+
   });
 }
 
