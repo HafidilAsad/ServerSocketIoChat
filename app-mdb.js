@@ -327,7 +327,7 @@ function handleModbusMdb(
       });
     }, 2500);
 
-    cron.schedule('15 10 * * *', () =>{
+    cron.schedule('20 10 * * *', () =>{
       const nama_mesin = `${namaMesin}`;
       const query = `INSERT INTO ${DB_TABLE_MDB} (panel, kwh, v_r, v_s, v_t, i_r, i_s, i_t, power_factor) VALUES (?, ?, ? , ? , ? , ? , ? , ? , ? )`;
       dbConnection.query(
