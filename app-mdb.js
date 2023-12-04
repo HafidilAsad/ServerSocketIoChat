@@ -262,9 +262,9 @@ function handleModbusMdb(
                                                               new Date();
                                                             if (
                                                               currentTime.getHours() ===
-                                                              23 &&
+                                                              9 &&
                                                               currentTime.getMinutes() ===
-                                                              59 &&
+                                                              50 &&
                                                               currentTime.getSeconds() ===
                                                                 30
                                                             ) {
