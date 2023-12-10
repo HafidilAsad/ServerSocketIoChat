@@ -60,13 +60,13 @@ const DB_TABLE7_2 = "akhir_hari_t6";
 const DB_TABLE_UPDATE = "monitoring_gas30";
 
 // Host configuration
-const HOST1 = "10.14.139.53"; //striko 1
-const HOST2 = "10.14.139.54"; //striko 2
-const HOST3 = "10.14.139.55"; //striko 3
-const HOST4 = "10.14.139.56"; //swifasia
-const HOST5 = "10.14.139.66"; //gravity
-const HOST6 = "10.14.139.172"; //painting
-const HOST7 = "10.14.139.44"; //t6
+const HOST1 = "172.172.8.10"; //striko 1
+const HOST2 = "172.172.8.11"; //striko 2
+const HOST3 = "172.172.8.12"; //striko 3
+const HOST4 = "172.172.8.13"; //swifasia
+const HOST5 = "172.172.8.17"; //gravity
+const HOST6 = "172.172.8.18"; //painting
+const HOST7 = "172.172.8.19"; //t6
 
 function handleModbus(
   client,
