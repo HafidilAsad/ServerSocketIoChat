@@ -37,11 +37,11 @@ const socketIOInstance = require("./socketConfig.js")(http);
 // Database configuration
 const DB_TABLE_MDB = "db_mdb_monitoring";
 
-const HOST8 = "10.14.139.67"; //MDB I
-const HOST9 = "10.14.139.68"; //MDB II
-const HOST10 = "10.14.139.69"; //MDB III
-const HOST11 = "10.14.139.70"; //MDB IV
-const HOST12 = "10.14.139.71"; //MDB V
+const HOST8 = "172.172.8.20"; //MDB I
+const HOST9 = "172.172.8.21"; //MDB II
+const HOST10 = "172.172.8.22"; //MDB III
+const HOST11 = "172.172.8.23"; //MDB IV
+const HOST12 = "172.172.8.24"; //MDB V
 
 function handleModbusMdb(
   client,
