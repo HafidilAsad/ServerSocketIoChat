@@ -4,7 +4,7 @@ const http = require("http").Server(app);
 const cron = require("node-cron");
 const PORT = 4003;
 
-const dbConnection = require("./dbConfig2.js");
+const dbConnection = require("./dbConfig3.js");
 const {
   client8,
   client9,
@@ -393,102 +393,6 @@ async function executeModbusTasks() {
   }
 }
 
-// function executeModbusTask() {
-//   handleModbusMdb(
-//     client8,
-//     HOST8,
-//     SLAVE_ID_MDB,
-//     ADDRESS_VR,
-//     ADDRESS_VS,
-//     ADDRESS_VT,
-//     ADDRESS_IR,
-//     ADDRESS_IS,
-//     ADDRESS_IT,
-//     ADDRESS_AP,
-//     ADDRESS_ED,
-//     ADDRESS_ED1,
-//     ADDRESS_PF,
-//     "MDB_1",
-//     "valueMdb_1",
-//     "MDB_1"
-//   );
-
-//   handleModbusMdb(
-//     client9,
-//     HOST9,
-//     SLAVE_ID_MDB,
-//     ADDRESS_VR,
-//     ADDRESS_VS,
-//     ADDRESS_VT,
-//     ADDRESS_IR,
-//     ADDRESS_IS,
-//     ADDRESS_IT,
-//     ADDRESS_AP,
-//     ADDRESS_ED,
-//     ADDRESS_ED1,
-//     ADDRESS_PF,
-//     "MDB_2",
-//     "valueMdb_2",
-//     "MDB_2"
-//   );
-
-//   handleModbusMdb(
-//     client10,
-//     HOST10,
-//     SLAVE_ID_MDB,
-//     ADDRESS_VR,
-//     ADDRESS_VS,
-//     ADDRESS_VT,
-//     ADDRESS_IR,
-//     ADDRESS_IS,
-//     ADDRESS_IT,
-//     ADDRESS_AP,
-//     ADDRESS_ED,
-//     ADDRESS_ED1,
-//     ADDRESS_PF,
-//     "MDB_3",
-//     "valueMdb_3",
-//     "MDB_3"
-//   );
-
-//   handleModbusMdb(
-//     client11,
-//     HOST11,
-//     SLAVE_ID_MDB,
-//     ADDRESS_VR,
-//     ADDRESS_VS,
-//     ADDRESS_VT,
-//     ADDRESS_IR,
-//     ADDRESS_IS,
-//     ADDRESS_IT,
-//     ADDRESS_AP,
-//     ADDRESS_ED,
-//     ADDRESS_ED1,
-//     ADDRESS_PF,
-//     "MDB_4",
-//     "valueMdb_4",
-//     "MDB_4"
-//   );
-
-//   handleModbusMdb(
-//     client12,
-//     HOST12,
-//     SLAVE_ID_MDB,
-//     ADDRESS_VR,
-//     ADDRESS_VS,
-//     ADDRESS_VT,
-//     ADDRESS_IR,
-//     ADDRESS_IS,
-//     ADDRESS_IT,
-//     ADDRESS_AP,
-//     ADDRESS_ED,
-//     ADDRESS_ED1,
-//     ADDRESS_PF,
-//     "MDB_5",
-//     "valueMdb_5",
-//     "MDB_5"
-//   );
-// }
 
 //Schedule Execute Modbus at 23.59
 cron.schedule("59 23 * * *", () => {

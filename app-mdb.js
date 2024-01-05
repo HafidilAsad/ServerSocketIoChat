@@ -91,14 +91,14 @@ function handleModbusMdb(
                   socketIOInstance.emit(`${socketEventName}_vt`, value_vt);
                   console.log("====================================");
 
-                  console.log(
-                    `${idMesin}_vr`,
-                    value_vr,
-                    `${idMesin}_vs`,
-                    value_vs,
-                    `${idMesin}_vt`,
-                    value_vt
-                  );
+                  // console.log(
+                  //   `${idMesin}_vr`,
+                  //   value_vr,
+                  //   `${idMesin}_vs`,
+                  //   value_vs,
+                  //   `${idMesin}_vt`,
+                  //   value_vt
+                  // );
 
                   client.readHoldingRegisters(
                     address4,
@@ -150,14 +150,14 @@ function handleModbusMdb(
                                       value_it
                                     );
 
-                                    console.log(
-                                      `${idMesin}_ir`,
-                                      value_ir,
-                                      `${idMesin}_is`,
-                                      value_is,
-                                      `${idMesin}_it`,
-                                      value_it
-                                    );
+                                    // console.log(
+                                    //   `${idMesin}_ir`,
+                                    //   value_ir,
+                                    //   `${idMesin}_is`,
+                                    //   value_is,
+                                    //   `${idMesin}_it`,
+                                    //   value_it
+                                    // );
                                     client.readHoldingRegisters(
                                       address7,
                                       2,
@@ -194,7 +194,7 @@ function handleModbusMdb(
                                                 );
                                                 const value_ed_0 = buffer
                                                   .readUInt16BE(0)
-                                                  .toFixed();
+                                                  .toFixed().padStart(3, '0');
                                                 client.readHoldingRegisters(
                                                   address8_2,
                                                   2,
@@ -211,7 +211,7 @@ function handleModbusMdb(
                                                         );
                                                       const value_ed_1 = buffer
                                                         .readUInt16BE(0)
-                                                        .toFixed(0);
+                                                        .toFixed(0).padStart(3, '0');;
 
                                                       client.readHoldingRegisters(
                                                         address9,
@@ -259,45 +259,7 @@ function handleModbusMdb(
                                                               value_pf
                                                             );
 
-                                                            const currentTime =
-                                                              new Date();
-                                                            if (
-                                                              currentTime.getHours() ===
-                                                              9 &&
-                                                              currentTime.getMinutes() ===
-                                                              50 &&
-                                                              currentTime.getSeconds() ===
-                                                                30
-                                                            ) {
-                                                              const nama_mesin = `${namaMesin}`;
-                                                              const query = `INSERT INTO ${DB_TABLE_MDB} (panel, kwh, v_r, v_s, v_t, i_r, i_s, i_t, power_factor) VALUES (?, ?, ? , ? , ? , ? , ? , ? , ? )`;
-                                                              dbConnection.query(
-                                                                query,
-                                                                [
-                                                                  nama_mesin,
-                                                                  value_ed,
-                                                                  value_vr,
-                                                                  value_vs,
-                                                                  value_vt,
-                                                                  value_ir,
-                                                                  value_is,
-                                                                  value_it,
-                                                                  value_pf,
-                                                                ]
-                                                              ),
-                                                                (err) => {
-                                                                  if (err) {
-                                                                    console.log(
-                                                                      `Insert Akhir Hari ${idMesin} Error`,
-                                                                      err
-                                                                    );
-                                                                  } else {
-                                                                    console.log(
-                                                                      `Insert into ${idMesin} Akhir hari success`
-                                                                    );
-                                                                  }
-                                                                };
-                                                            }
+                                                           
                                                           }
                                                         }
                                                       );
@@ -327,36 +289,36 @@ function handleModbusMdb(
       });
     }, 2500);
 
-    cron.schedule('20 10 * * *', () =>{
-      const nama_mesin = `${namaMesin}`;
-      const query = `INSERT INTO ${DB_TABLE_MDB} (panel, kwh, v_r, v_s, v_t, i_r, i_s, i_t, power_factor) VALUES (?, ?, ? , ? , ? , ? , ? , ? , ? )`;
-      dbConnection.query(
-        query,
-        [
-          nama_mesin,
-          value_ed,
-          value_vr,
-          value_vs,
-          value_vt,
-          value_ir,
-          value_is,
-          value_it,
-          value_pf,
-        ]
-      ),
-        (err) => {
-          if (err) {
-            console.log(
-              `Insert Akhir Hari ${idMesin} Error`,
-              err
-            );
-          } else {
-            console.log(
-              `Insert into ${idMesin} Akhir hari success`
-            );
-          }
-        };
-    })
+    // cron.schedule('20 10 * * *', () =>{
+    //   const nama_mesin = `${namaMesin}`;
+    //   const query = `INSERT INTO ${DB_TABLE_MDB} (panel, kwh, v_r, v_s, v_t, i_r, i_s, i_t, power_factor) VALUES (?, ?, ? , ? , ? , ? , ? , ? , ? )`;
+    //   dbConnection.query(
+    //     query,
+    //     [
+    //       nama_mesin,
+    //       value_ed,
+    //       value_vr,
+    //       value_vs,
+    //       value_vt,
+    //       value_ir,
+    //       value_is,
+    //       value_it,
+    //       value_pf,
+    //     ]
+    //   ),
+    //     (err) => {
+    //       if (err) {
+    //         console.log(
+    //           `Insert Akhir Hari ${idMesin} Error`,
+    //           err
+    //         );
+    //       } else {
+    //         console.log(
+    //           `Insert into ${idMesin} Akhir hari success`
+    //         );
+    //       }
+    //     };
+    // })
 
   });
 }
