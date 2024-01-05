@@ -2,6 +2,16 @@ const socketIO = require("socket.io");
 const dbConnection = require("./dbConfig2.js");
 const axios = require("axios");
 
+const fetchDataBanjir = (socket) => {
+  //ambil data dari database
+  const query = "SELECT * FROM db_monitoring_banjir";
+
+  dbConnection.query(query, (error, results) => {
+    if (error) throw error;
+    socket.emit("banjirData", results);
+  });
+};
+
 const fetchDataFromDB = (socket) => {
   const query =
     "SELECT id, nomor_mesin, status, nama_part FROM db_quality_status_machine";
@@ -82,6 +92,12 @@ const fetchDataTrial = (socket) => {
 //   });
 // };
 
+const emitBanjirData = (socket) => {
+  setInterval(() => {
+    fetchDataBanjir(socket);
+  }, 5000);
+};
+
 const emitQualityData = (socket) => {
   setInterval(() => {
     fetchDataFromDB(socket);
@@ -119,6 +135,7 @@ module.exports = (http) => {
     emitQualityJsu(socket);
     emitQualityQtime(socket);
     emitQualityTrial(socket);
+    emitBanjirData(socket);
 
     socket.on("disconnect", () => {
       console.log("🔥: A user disconnected");
