@@ -4,7 +4,7 @@ const http = require("http").Server(app);
 const cron = require("node-cron");
 const PORT = 4003;
 
-const dbConnection = require("./dbConfig3.js");
+const dbConnection = require("./dbConfig2.js");
 const {
   client8,
   client9,

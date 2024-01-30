@@ -3,7 +3,7 @@ const app = express();
 const http = require("http").Server(app);
 const PORT = 4000;
 
-const dbConnection = require("./dbConfig2.js");
+const dbConnection = require("./dbConfig3.js");
 const {
   client1,
   client2,
@@ -372,14 +372,32 @@ function handleModbusSwifa(
           client.connectTCP(host, { port: PortModbus, timeout: 5000 });
         } else {
           const buffer = Buffer.from(data.buffer);
-          const value = buffer.readFloatBE().toFixed(1);
+          const swappedBuffer = Buffer.alloc(4);
+
+          buffer.copy(swappedBuffer, 0, 0, 4);
+          swappedBuffer.swap16();
+
+          const value2 = swappedBuffer.readFloatLE();
+          const value = value2.toFixed(1);
 
           client.readHoldingRegisters(address2, 2, function (err, data) {
             if (err) {
               console.log(`Modbus ${idMesin} Error`, err);
             } else {
               const buffer = Buffer.from(data.buffer);
-              const valueUsed = buffer.readUInt32BE();
+              const swappedBuffer = Buffer.alloc(4);
+
+              buffer.copy(swappedBuffer, 0, 0, 4);
+
+              const temp = swappedBuffer[0];
+              swappedBuffer[0] = swappedBuffer[1];
+              swappedBuffer[1] = temp;
+
+              const temp2 = swappedBuffer[2];
+              swappedBuffer[2] = swappedBuffer[3];
+              swappedBuffer[3] = temp2;
+
+              const valueUsed = swappedBuffer.readUInt32LE();
 
               const nama_mesin = `${namaMesin}`;
               const query = `INSERT INTO ${tablePerminute} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
