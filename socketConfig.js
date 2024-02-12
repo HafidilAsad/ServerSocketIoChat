@@ -31,6 +31,10 @@ module.exports = (http) => {
       socketIOInstance.emit("touchupGasResponse", data);
     });
 
+    socket.on("touchupQuality", (data) => {
+      socketIOInstance.emit("touchupQualityResponse", data);
+    });
+
     socket.on("ticketMaintenance", (data) => {
       socketIOInstance.emit("ticketMaintenanceResponse", data);
     });
