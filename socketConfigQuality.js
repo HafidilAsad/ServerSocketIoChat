@@ -137,6 +137,8 @@ module.exports = (http) => {
     emitQualityTrial(socket);
     emitBanjirData(socket);
 
+    
+
     socket.on("disconnect", () => {
       console.log("🔥: A user disconnected");
     });

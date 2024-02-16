@@ -168,7 +168,7 @@ function handleModbusMdb(
                                             );
                                             const value_ed_0 = buffer
                                               .readUInt16BE(0)
-                                              .toFixed();
+                                              .toFixed().padStart(3,'0');
                                             client.readHoldingRegisters(
                                               address8_2,
                                               2,
@@ -184,7 +184,7 @@ function handleModbusMdb(
                                                   );
                                                   const value_ed_1 = buffer
                                                     .readUInt16BE(0)
-                                                    .toFixed(0);
+                                                    .toFixed(0).padStart(3,'0');;
 
                                                   client.readHoldingRegisters(
                                                     address9,
