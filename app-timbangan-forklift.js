@@ -36,7 +36,7 @@ client.on("error", (err) => {
   console.error("Error:", err);
   setTimeout(() => {
     process.exit(1)
-  }, 600*1000);
+  }, 60*60*1000);
 
 });
 
