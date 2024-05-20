@@ -7,6 +7,7 @@ const ADDRESS2 = 20130;
 const SLAVE_ID = 1;
 const SLAVE_ID_SWIFA = 13;
 const SLAVE_ID_MDB = 1;
+const SLAVE_ID_MDB2 = 2;
 const ADDRESS4 = 6;
 const ADDRESS5 = 8;
 const ADDRESS_PAINTING = 21000;
@@ -41,6 +42,11 @@ const client10 = new ModbusRTU(); //mdb3
 const client11 = new ModbusRTU(); //mdb4
 const client12 = new ModbusRTU(); //mdb5
 
+//sdb panel
+const client13 = new ModbusRTU();//sdb25
+const client14 = new ModbusRTU();//sdb24
+
+
 module.exports = {
   client1,
   client2,
@@ -55,6 +61,8 @@ module.exports = {
   client10,
   client11,
   client12,
+  client13,
+  client14,
   PortModbus,
   PortModbusMdb,
   ADDRESS,
@@ -62,6 +70,7 @@ module.exports = {
   SLAVE_ID,
   SLAVE_ID_SWIFA,
   SLAVE_ID_MDB,
+  SLAVE_ID_MDB2,
   ADDRESS4,
   ADDRESS5,
   ADDRESS_VR,
