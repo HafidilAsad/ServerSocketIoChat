@@ -53,7 +53,7 @@ const sendData = (machine, url) => {
     });
 };
 
-cron.schedule('5 9 * * *', () => {
+cron.schedule('59 23 * * *', () => {
   console.log('Running Cronjob');
   Object.keys(machines).forEach((machine) => {
     sendData(machine, `http://localhost:5000/addakhirhari${machine === 'Striko1'? '' : machine}`);
