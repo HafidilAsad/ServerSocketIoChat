@@ -10,7 +10,7 @@ const machines = {
   T6: { namaMesin: "T6", data: null, used: null },
   Painting: { namaMesin: "Painting", data: null, used: null },
   Gravity: { namaMesin: "Gravity", data: null, used: null },
-  // Add more machines as needed
+
 };
 
 const socket = io('ws://10.14.20.246:4000');

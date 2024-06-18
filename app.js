@@ -124,23 +124,23 @@ function handleModbus(
                 }
               );
 
-              const currentTime = new Date();
-              if (
-                currentTime.getHours() === 23 &&
-                currentTime.getMinutes() === 59 &&
-                currentTime.getSeconds() === 30
-              ) {
-                const nama_mesin = `${namaMesin}`;
-                const query = `INSERT INTO ${tableName} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
-                dbConnection.query(query, [nama_mesin, value, valueUsed]),
-                  (err) => {
-                    if (err) {
-                      console.log(`Insert Akhir Hari ${idMesin} Error`, err);
-                    } else {
-                      console.log(`Insert into ${idMesin} Akhir hari success`);
-                    }
-                  };
-              }
+              // const currentTime = new Date();
+              // if (
+              //   currentTime.getHours() === 23 &&
+              //   currentTime.getMinutes() === 59 &&
+              //   currentTime.getSeconds() === 30
+              // ) {
+              //   const nama_mesin = `${namaMesin}`;
+              //   const query = `INSERT INTO ${tableName} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
+              //   dbConnection.query(query, [nama_mesin, value, valueUsed]),
+              //     (err) => {
+              //       if (err) {
+              //         console.log(`Insert Akhir Hari ${idMesin} Error`, err);
+              //       } else {
+              //         console.log(`Insert into ${idMesin} Akhir hari success`);
+              //       }
+              //     };
+              // }
             }
           });
         }
@@ -342,23 +342,23 @@ function handleModbusSwifa(
                 }
               );
 
-              const currentTime = new Date();
-              if (
-                currentTime.getHours() === 23 &&
-                currentTime.getMinutes() === 59 &&
-                currentTime.getSeconds() === 30
-              ) {
-                const nama_mesin = `${namaMesin}`;
-                const query = `INSERT INTO ${tableName} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
-                dbConnection.query(query, [nama_mesin, value, valueUsed]),
-                  (err) => {
-                    if (err) {
-                      console.log(`Insert Akhir Hari ${idMesin} Error`, err);
-                    } else {
-                      console.log(`Insert into ${idMesin} Akhir hari success`);
-                    }
-                  };
-              }
+              // const currentTime = new Date();
+              // if (
+              //   currentTime.getHours() === 23 &&
+              //   currentTime.getMinutes() === 59 &&
+              //   currentTime.getSeconds() === 30
+              // ) {
+              //   const nama_mesin = `${namaMesin}`;
+              //   const query = `INSERT INTO ${tableName} (nama_mesin, gas_used, gas_consumption) VALUES (?, ?, ?)`;
+              //   dbConnection.query(query, [nama_mesin, value, valueUsed]),
+              //     (err) => {
+              //       if (err) {
+              //         console.log(`Insert Akhir Hari ${idMesin} Error`, err);
+              //       } else {
+              //         console.log(`Insert into ${idMesin} Akhir hari success`);
+              //       }
+              //     };
+              // }
             }
           });
         }
