@@ -9,7 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json())
 
+<<<<<<< HEAD
 const port = 5333;
+=======
+const port = process.env.PORT_EXPRESS_NUSA1 || 5333;
+>>>>>>> dccb4a5b928ad7d59c16f25a34184d0773c2b410
 
 const client = new Modbus();
 
