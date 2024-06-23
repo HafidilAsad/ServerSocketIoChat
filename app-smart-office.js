@@ -13,7 +13,7 @@ const port = process.env.PORT_EXPRESS_NUSA1 || 5333;
 
 const client = new Modbus();
 
-// Define the Modbus server's IP address and port
+// Define the Modbus server's IP address and port 
 const modbusServerIp = process.env.HOST_PLC_NUSA1;
 const modbusServerPort = process.env.PORT_PLC_NUSA1;
 
@@ -31,8 +31,8 @@ const registerAc_1 = 57;
 const registerAc_2 = 58;
 
 // register value Monitor
-const registerTemperature = 60;
-const registerHumidity = 62;
+const registerTemperature = 70;
+const registerHumidity = 72;
 
 const registerValueOn = 1;
 const registerValueOff = 0;
@@ -76,11 +76,13 @@ async function getCondition() {
       //  Temperature and Humidity
       const temperature = await client.readHoldingRegisters(registerTemperature, 2);
       const buffer = Buffer.from(temperature.buffer);
-      const temperatureValue = buffer.readInt16BE();
+      let  temperatureValue = buffer.readInt16BE();
+      temperatureValue = parseFloat(temperatureValue)/10
   
       const humidity = await client.readHoldingRegisters(registerHumidity, 2);
       const buffer2 = Buffer.from(humidity.buffer);
-      const humidityValue = buffer2.readInt16BE();
+      let humidityValue = buffer2.readInt16BE();
+      humidityValue = parseFloat(humidityValue)/10;
   
       return { lamp_1, lamp_2, lamp_3, mode_presentation, door_lock_1, door_lock_2, temperatureValue, humidityValue };
     } catch (readErr) {
@@ -209,11 +211,14 @@ client.connectTCP(modbusServerIp, { port: modbusServerPort }, (err) => {
       try {
         const temperature = await client.readHoldingRegisters(registerTemperature, 2);
         const buffer = Buffer.from(temperature.buffer);
-        const temperatureValue = buffer.readInt16BE();
+        let temperatureValue = buffer.readInt16BE();
+        temperatureValue = parseFloat(temperatureValue)/10;
+        
         const humidity = await client.readHoldingRegisters(registerHumidity, 2);
         const buffer2 = Buffer.from(humidity.buffer);
-        const humidityValue = buffer2.readInt16BE();
-        res.status(200).json({ temperatureValue, humidityValue });
+        let humidityValue = buffer2.readInt16BE();
+        humidityValue = parseFloat(humidityValue)/10;
+        res.status(200).json({ temperatureValue , humidityValue });
       } catch (readErr) {
         console.error("Error reading register:", readErr);
         res.status(500).send("Error reading Modbus register");
