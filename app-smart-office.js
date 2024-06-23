@@ -223,6 +223,7 @@ client.connectTCP(modbusServerIp, { port: modbusServerPort }, (err) => {
       } catch (readErr) {
         console.error("Error reading register:", readErr);
         res.status(500).send("Error reading Modbus register");
+        process.exit(1);
       }
     });
   }
