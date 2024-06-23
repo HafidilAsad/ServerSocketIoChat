@@ -44,6 +44,7 @@ function writeCoil(register, value) {
       if (writeErr) {
         console.error("Error writing register:", writeErr);
         reject(writeErr);
+        process.exit(1);
       } else {
         console.log("Write successful:", response);
         resolve(response);
