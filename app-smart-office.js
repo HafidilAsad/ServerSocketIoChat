@@ -97,6 +97,7 @@ client.connectTCP(modbusServerIp, { port: modbusServerPort }, (err) => {
   if (err) {
     console.log(`Modbus Smart Office Error`, err);
     client.connectTCP(host, { port: PortModbusMdb, timeout: 5000 });
+    process.exit(1);
   } else {
    app.post("/api/smart-office/login", async (req, res) => {
       console.log("API CALLED AT :", new Date().toLocaleString('id-ID'));
